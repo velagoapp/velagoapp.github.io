@@ -3,1163 +3,902 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Velago — Authority Architecture for Finance & IT Executives in SEA</title>
-<meta name="description" content="Velago builds systematic authority infrastructure for senior Finance and IT executives in Southeast Asia. Done for you. Inbound results. No cold outreach.">
+<title>Velago — AI Communications for Financial Advisors</title>
+<meta name="description" content="Velago generates client reports, LinkedIn content, newsletters, and proposals for independent financial advisors. Submit data. Receive polished outputs in 24 hours.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --black: #080808;
-    --deep: #0d0d0d;
-    --surface: #111111;
-    --border: rgba(255,255,255,0.07);
-    --border-bright: rgba(255,255,255,0.14);
-    --gold: #c9a84c;
-    --gold-light: #e8c97a;
-    --gold-dim: rgba(201,168,76,0.15);
-    --white: #f5f2ec;
-    --muted: rgba(245,242,236,0.45);
-    --subtle: rgba(245,242,236,0.22);
-    --accent: #8b6914;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; font-size: 16px; }
-
-  body {
-    background: var(--black);
-    color: var(--white);
-    font-family: 'Outfit', sans-serif;
-    font-weight: 300;
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
-
-  /* ── NOISE TEXTURE OVERLAY ── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
-    opacity: 0.4;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  /* ── NAVIGATION ── */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 22px 48px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid transparent;
-    transition: all 0.4s ease;
-    backdrop-filter: blur(0px);
-  }
-
-  nav.scrolled {
-    border-bottom-color: var(--border);
-    backdrop-filter: blur(20px);
-    background: rgba(8,8,8,0.85);
-  }
-
-  .nav-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.6rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    color: var(--white);
-    text-transform: uppercase;
-  }
-
-  .nav-logo span {
-    color: var(--gold);
-  }
-
-  .nav-cta {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    font-weight: 400;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--gold);
-    border: 1px solid rgba(201,168,76,0.4);
-    padding: 10px 22px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-  }
-
-  .nav-cta:hover {
-    background: var(--gold-dim);
-    border-color: var(--gold);
-  }
-
-  /* ── HERO ── */
-  .hero {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 120px 48px 80px;
-    overflow: hidden;
-  }
-
-  .hero-grid-lines {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(201,168,76,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(201,168,76,0.04) 1px, transparent 1px);
-    background-size: 80px 80px;
-    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
-  }
-
-  .hero-glow {
-    position: absolute;
-    top: 20%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(ellipse, rgba(201,168,76,0.06) 0%, transparent 70%);
-    pointer-events: none;
-  }
-
-  .hero-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 36px;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.2s forwards;
-  }
-
-  .hero-label::before {
-    content: '— ';
-    color: var(--subtle);
-  }
-
-  .hero h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3rem, 7vw, 6.5rem);
-    font-weight: 300;
-    line-height: 1.08;
-    letter-spacing: -0.01em;
-    max-width: 820px;
-    opacity: 0;
-    animation: fadeUp 1s ease 0.4s forwards;
-  }
-
-  .hero h1 em {
-    font-style: italic;
-    color: var(--gold);
-  }
-
-  .hero-sub {
-    margin-top: 36px;
-    max-width: 520px;
-    font-size: 1rem;
-    font-weight: 300;
-    color: var(--muted);
-    line-height: 1.8;
-    opacity: 0;
-    animation: fadeUp 1s ease 0.6s forwards;
-  }
-
-  .hero-actions {
-    margin-top: 52px;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    flex-wrap: wrap;
-    opacity: 0;
-    animation: fadeUp 1s ease 0.8s forwards;
-  }
-
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    background: var(--gold);
-    color: var(--black);
-    font-family: 'DM Mono', monospace;
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    padding: 16px 36px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn-primary::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(255,255,255,0.12);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-
-  .btn-primary:hover::after { opacity: 1; }
-
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(201,168,76,0.3);
-  }
-
-  .btn-arrow {
-    font-size: 1rem;
-    transition: transform 0.3s;
-  }
-
-  .btn-primary:hover .btn-arrow { transform: translateX(4px); }
-
-  .hero-note {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--subtle);
-    letter-spacing: 0.1em;
-  }
-
-  .hero-scroll {
-    position: absolute;
-    bottom: 40px;
-    left: 48px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--subtle);
-    opacity: 0;
-    animation: fadeUp 1s ease 1.2s forwards;
-  }
-
-  .scroll-line {
-    width: 40px;
-    height: 1px;
-    background: var(--border-bright);
-  }
-
-  /* ── SECTION UNIVERSAL ── */
-  section {
-    position: relative;
-    z-index: 1;
-  }
-
-  .container {
-    max-width: 1120px;
-    margin: 0 auto;
-    padding: 0 48px;
-  }
-
-  .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .section-label::after {
-    content: '';
-    height: 1px;
-    width: 48px;
-    background: var(--gold);
-    opacity: 0.4;
-  }
-
-  /* ── PROBLEM SECTION ── */
-  .problem {
-    padding: 120px 0;
-    border-top: 1px solid var(--border);
-  }
-
-  .problem-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: start;
-  }
-
-  .problem h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.4rem, 4vw, 3.8rem);
-    font-weight: 300;
-    line-height: 1.15;
-    letter-spacing: -0.01em;
-  }
-
-  .problem h2 em {
-    font-style: italic;
-    color: var(--gold);
-  }
-
-  .problem-right p {
-    color: var(--muted);
-    font-size: 1rem;
-    line-height: 1.9;
-    margin-bottom: 28px;
-  }
-
-  .problem-right p strong {
-    color: var(--white);
-    font-weight: 500;
-  }
-
-  .gap-box {
-    margin-top: 48px;
-    border: 1px solid var(--border);
-    padding: 28px 32px;
-    background: var(--surface);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .gap-box::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; bottom: 0;
-    width: 3px;
-    background: var(--gold);
-  }
-
-  .gap-box-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 16px;
-  }
-
-  .gap-box p {
-    font-size: 0.95rem;
-    color: var(--muted);
-    line-height: 1.8;
-    font-style: italic;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-    font-weight: 300;
-  }
-
-  /* ── SOLUTION ── */
-  .solution {
-    padding: 120px 0;
-    border-top: 1px solid var(--border);
-    background: var(--deep);
-  }
-
-  .solution-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: end;
-    margin-bottom: 80px;
-  }
-
-  .solution h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.4rem, 4vw, 3.8rem);
-    font-weight: 300;
-    line-height: 1.15;
-  }
-
-  .solution h2 em {
-    font-style: italic;
-    color: var(--gold);
-  }
-
-  .solution-intro {
-    color: var(--muted);
-    font-size: 1rem;
-    line-height: 1.85;
-    padding-top: 20px;
-  }
-
-  .pillars {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    background: var(--border);
-  }
-
-  .pillar {
-    background: var(--surface);
-    padding: 44px 36px;
-    transition: background 0.3s;
-  }
-
-  .pillar:hover {
-    background: #161616;
-  }
-
-  .pillar-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.25em;
-    color: var(--gold);
-    margin-bottom: 24px;
-  }
-
-  .pillar h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.8rem;
-    font-weight: 400;
-    margin-bottom: 16px;
-    letter-spacing: 0.01em;
-  }
-
-  .pillar p {
-    color: var(--muted);
-    font-size: 0.9rem;
-    line-height: 1.8;
-  }
-
-  /* ── TIERS ── */
-  .tiers {
-    padding: 120px 0;
-    border-top: 1px solid var(--border);
-  }
-
-  .tiers-header {
-    margin-bottom: 72px;
-  }
-
-  .tiers h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.4rem, 4vw, 3.8rem);
-    font-weight: 300;
-    line-height: 1.15;
-    max-width: 580px;
-    margin-top: 16px;
-  }
-
-  .tiers h2 em {
-    font-style: italic;
-    color: var(--gold);
-  }
-
-  .tiers-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-
-  .tier-card {
-    border: 1px solid var(--border);
-    padding: 44px 36px;
-    position: relative;
-    transition: border-color 0.3s, transform 0.3s;
-    background: var(--surface);
-  }
-
-  .tier-card:hover {
-    border-color: var(--border-bright);
-    transform: translateY(-4px);
-  }
-
-  .tier-card.featured {
-    border-color: rgba(201,168,76,0.4);
-    background: linear-gradient(160deg, rgba(201,168,76,0.05) 0%, var(--surface) 60%);
-  }
-
-  .tier-badge {
-    position: absolute;
-    top: -1px;
-    left: 36px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.55rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    background: var(--gold);
-    color: var(--black);
-    padding: 5px 12px;
-    font-weight: 500;
-  }
-
-  .tier-name {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 20px;
-  }
-
-  .tier-price {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 2.8rem;
-    font-weight: 300;
-    line-height: 1;
-    margin-bottom: 6px;
-  }
-
-  .tier-period {
-    font-size: 0.8rem;
-    color: var(--muted);
-    font-family: 'DM Mono', monospace;
-    margin-bottom: 36px;
-  }
-
-  .tier-divider {
-    height: 1px;
-    background: var(--border);
-    margin-bottom: 32px;
-  }
-
-  .tier-features {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    margin-bottom: 40px;
-  }
-
-  .tier-features li {
-    font-size: 0.88rem;
-    color: var(--muted);
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    line-height: 1.5;
-  }
-
-  .tier-features li::before {
-    content: '→';
-    color: var(--gold);
-    flex-shrink: 0;
-    font-size: 0.85rem;
-    margin-top: 1px;
-  }
-
-  .tier-cta {
-    display: block;
-    text-align: center;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    border: 1px solid rgba(201,168,76,0.35);
-    padding: 14px;
-    text-decoration: none;
-    transition: all 0.3s;
-  }
-
-  .tier-cta:hover {
-    background: var(--gold-dim);
-    border-color: var(--gold);
-  }
-
-  .tier-card.featured .tier-cta {
-    background: var(--gold);
-    color: var(--black);
-    border-color: var(--gold);
-  }
-
-  .tier-card.featured .tier-cta:hover {
-    background: var(--gold-light);
-  }
-
-  /* ── FOR WHO ── */
-  .forwho {
-    padding: 120px 0;
-    border-top: 1px solid var(--border);
-    background: var(--deep);
-  }
-
-  .forwho-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-  }
-
-  .forwho h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.4rem, 4vw, 3.8rem);
-    font-weight: 300;
-    line-height: 1.15;
-    margin-bottom: 48px;
-    grid-column: 1 / -1;
-  }
-
-  .forwho h2 em {
-    font-style: italic;
-    color: var(--gold);
-  }
-
-  .check-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-  .check-list li {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border);
-    font-size: 0.95rem;
-    color: var(--muted);
-    line-height: 1.7;
-  }
-
-  .check-list li:last-child {
-    border-bottom: none;
-  }
-
-  .check-icon {
-    flex-shrink: 0;
-    width: 22px;
-    height: 22px;
-    border: 1px solid;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.7rem;
-    margin-top: 2px;
-  }
-
-  .check-icon.yes {
-    border-color: var(--gold);
-    color: var(--gold);
-  }
-
-  .check-icon.no {
-    border-color: var(--subtle);
-    color: var(--subtle);
-  }
-
-  .forwho-col-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    margin-bottom: 32px;
-  }
-
-  .forwho-col-label.yes { color: var(--gold); }
-  .forwho-col-label.no { color: var(--subtle); }
-
-  /* ── TIMELINE ── */
-  .timeline {
-    padding: 120px 0;
-    border-top: 1px solid var(--border);
-  }
-
-  .timeline h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.4rem, 4vw, 3.8rem);
-    font-weight: 300;
-    line-height: 1.15;
-    max-width: 580px;
-    margin-bottom: 80px;
-    margin-top: 16px;
-  }
-
-  .timeline h2 em {
-    font-style: italic;
-    color: var(--gold);
-  }
-
-  .timeline-track {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    position: relative;
-  }
-
-  .timeline-track::before {
-    content: '';
-    position: absolute;
-    top: 22px;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, var(--gold) 0%, rgba(201,168,76,0.2) 100%);
-  }
-
-  .timeline-item {
-    padding-top: 56px;
-    padding-right: 32px;
-    position: relative;
-  }
-
-  .timeline-item::before {
-    content: '';
-    position: absolute;
-    top: 16px;
-    left: 0;
-    width: 14px;
-    height: 14px;
-    border: 1px solid var(--gold);
-    background: var(--black);
-    transform: rotate(45deg);
-  }
-
-  .timeline-month {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 16px;
-  }
-
-  .timeline-item h4 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.3rem;
-    font-weight: 400;
-    margin-bottom: 12px;
-  }
-
-  .timeline-item p {
-    font-size: 0.85rem;
-    color: var(--muted);
-    line-height: 1.75;
-  }
-
-  /* ── CTA SECTION ── */
-  .cta-section {
-    padding: 140px 0;
-    border-top: 1px solid var(--border);
-    background: var(--deep);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .cta-section::before {
-    content: '';
-    position: absolute;
-    bottom: -200px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 800px;
-    height: 400px;
-    background: radial-gradient(ellipse, rgba(201,168,76,0.08) 0%, transparent 70%);
-  }
-
-  .cta-section .section-label {
-    justify-content: center;
-  }
-
-  .cta-section .section-label::after { display: none; }
-  .cta-section .section-label::before {
-    content: '';
-    height: 1px;
-    width: 48px;
-    background: var(--gold);
-    opacity: 0.4;
-  }
-
-  .cta-section h2 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.8rem, 5vw, 5rem);
-    font-weight: 300;
-    line-height: 1.1;
-    max-width: 700px;
-    margin: 24px auto 20px;
-  }
-
-  .cta-section h2 em {
-    font-style: italic;
-    color: var(--gold);
-  }
-
-  .cta-section p {
-    color: var(--muted);
-    font-size: 1rem;
-    max-width: 460px;
-    margin: 0 auto 52px;
-    line-height: 1.85;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    padding: 48px;
-    border-top: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: gap;
-  }
-
-  .footer-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.3rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--white);
-  }
-
-  .footer-logo span { color: var(--gold); }
-
-  .footer-meta {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    color: var(--subtle);
-    text-align: right;
-  }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; }
-  .reveal-delay-4 { transition-delay: 0.4s; }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 900px) {
-    nav { padding: 18px 24px; }
-    .hero { padding: 100px 24px 60px; }
-    .container { padding: 0 24px; }
-
-    .problem-layout,
-    .solution-header,
-    .forwho-layout { grid-template-columns: 1fr; gap: 40px; }
-
-    .forwho h2 { grid-column: 1; }
-
-    .pillars,
-    .tiers-grid { grid-template-columns: 1fr; }
-
-    .timeline-track { grid-template-columns: 1fr 1fr; gap: 48px; }
-    .timeline-track::before { display: none; }
-    .timeline-item::before { top: -28px; }
-    .timeline-item { padding-top: 0; }
-
-    footer { flex-direction: column; gap: 20px; text-align: center; }
-    .footer-meta { text-align: center; }
-  }
+:root {
+  --bg: #07090d;
+  --surface: #0e1118;
+  --surface2: #131720;
+  --border: #1a2035;
+  --border2: #242d42;
+  --text: #9aa5be;
+  --text2: #c5cfe0;
+  --heading: #eef2ff;
+  --muted: #3d4a63;
+  --accent: #4f8ef7;
+  --accent2: #7eb3ff;
+  --green: #10b981;
+  --green2: #34d399;
+  --amber: #f59e0b;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(7,9,13,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: 'Instrument Serif', serif;
+  font-size: 20px;
+  color: var(--heading);
+  text-decoration: none;
+  letter-spacing: -0.3px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover { color: var(--text2); }
+
+.nav-cta {
+  background: var(--accent);
+  color: #fff !important;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 12px !important;
+  transition: opacity 0.2s !important;
+}
+
+.nav-cta:hover { opacity: 0.85; color: #fff !important; }
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 120px 32px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -200px; left: 50%;
+  transform: translateX(-50%);
+  width: 800px; height: 800px;
+  background: radial-gradient(ellipse, rgba(79,142,247,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.3;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 100%);
+}
+
+.hero-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(16,185,129,0.08);
+  border: 1px solid rgba(16,185,129,0.2);
+  border-radius: 100px;
+  padding: 6px 14px;
+  font-size: 11px;
+  color: var(--green2);
+  letter-spacing: 1px;
+  margin-bottom: 32px;
+  animation: fadeUp 0.6s ease forwards;
+}
+
+.hero-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1.hero-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(38px, 6vw, 72px);
+  color: var(--heading);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -1px;
+  margin-bottom: 24px;
+  max-width: 800px;
+  animation: fadeUp 0.6s 0.1s ease both;
+}
+
+h1.hero-title em {
+  font-style: italic;
+  color: var(--accent2);
+}
+
+.hero-sub {
+  font-size: 16px;
+  color: var(--text);
+  max-width: 540px;
+  line-height: 1.7;
+  margin-bottom: 40px;
+  animation: fadeUp 0.6s 0.2s ease both;
+  font-family: 'DM Mono', monospace;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  animation: fadeUp 0.6s 0.3s ease both;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  padding: 14px 28px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 13px;
+  font-family: 'DM Mono', monospace;
+  font-weight: 500;
+  transition: opacity 0.2s, transform 0.2s;
+  display: inline-block;
+}
+
+.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
+
+.btn-secondary {
+  color: var(--text);
+  text-decoration: none;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.2s;
+}
+
+.btn-secondary:hover { color: var(--heading); }
+
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  margin-top: 72px;
+  padding-top: 48px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+  animation: fadeUp 0.6s 0.4s ease both;
+}
+
+.stat-item {}
+.stat-num {
+  font-family: 'Instrument Serif', serif;
+  font-size: 32px;
+  color: var(--heading);
+  display: block;
+  margin-bottom: 4px;
+}
+.stat-label { font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+
+/* SECTION BASE */
+section { padding: 100px 32px; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+
+.section-badge {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: block;
+}
+
+h2.section-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(28px, 4vw, 44px);
+  color: var(--heading);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+  max-width: 600px;
+}
+
+.section-sub {
+  color: var(--text);
+  font-size: 14px;
+  max-width: 520px;
+  line-height: 1.7;
+  margin-bottom: 64px;
+}
+
+/* PROBLEM */
+.problem-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+.problem-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.problem-item {
+  background: var(--surface2);
+  padding: 32px;
+}
+
+.problem-icon {
+  font-size: 24px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.problem-item h3 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 18px;
+  color: var(--heading);
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.problem-item p { font-size: 13px; color: var(--text); line-height: 1.6; }
+
+/* OUTPUTS */
+.outputs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.output-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.output-card:hover { border-color: var(--border2); }
+
+.output-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+
+.output-card.c1::before { background: linear-gradient(90deg, var(--accent), transparent); }
+.output-card.c2::before { background: linear-gradient(90deg, var(--green), transparent); }
+.output-card.c3::before { background: linear-gradient(90deg, var(--amber), transparent); }
+.output-card.c4::before { background: linear-gradient(90deg, #a78bfa, transparent); }
+
+.output-num {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  margin-bottom: 16px;
+  display: block;
+}
+
+.output-card h3 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px;
+  color: var(--heading);
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.output-card p { font-size: 13px; color: var(--text); line-height: 1.6; margin-bottom: 20px; }
+
+.output-tag {
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 1px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border2);
+  color: var(--muted);
+}
+
+/* HOW IT WORKS */
+.how-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.step {
+  background: var(--bg);
+  padding: 40px 32px;
+  position: relative;
+}
+
+.step-num {
+  font-family: 'Instrument Serif', serif;
+  font-size: 48px;
+  color: var(--border2);
+  line-height: 1;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.step h3 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 20px;
+  color: var(--heading);
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+
+.step p { font-size: 13px; color: var(--text); line-height: 1.6; }
+
+.step-detail {
+  margin-top: 16px;
+  font-size: 11px;
+  color: var(--muted);
+  padding: 10px 14px;
+  background: var(--surface);
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  line-height: 1.6;
+}
+
+/* PRICING */
+#pricing { background: var(--bg); }
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.price-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 24px;
+  position: relative;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.price-card:hover { border-color: var(--border2); transform: translateY(-2px); }
+
+.price-card.featured {
+  border-color: var(--accent);
+  background: linear-gradient(160deg, rgba(79,142,247,0.06) 0%, var(--surface) 60%);
+}
+
+.price-card.featured::after {
+  content: 'MOST POPULAR';
+  position: absolute;
+  top: -1px; left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+  color: #fff;
+  font-size: 9px;
+  letter-spacing: 2px;
+  padding: 4px 12px;
+  border-radius: 0 0 6px 6px;
+}
+
+.price-tier {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.price-amount {
+  font-family: 'Instrument Serif', serif;
+  font-size: 36px;
+  color: var(--heading);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.price-period {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 24px;
+  display: block;
+}
+
+.price-features {
+  list-style: none;
+  margin-bottom: 28px;
+}
+
+.price-features li {
+  font-size: 12px;
+  color: var(--text);
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.price-features li:last-child { border-bottom: none; }
+
+.price-features li::before {
+  content: '→';
+  color: var(--accent);
+  flex-shrink: 0;
+  font-size: 11px;
+  margin-top: 1px;
+}
+
+.price-btn {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-family: 'DM Mono', monospace;
+  text-decoration: none;
+  transition: all 0.2s;
+  border: 1px solid var(--border2);
+  color: var(--text2);
+  background: transparent;
+}
+
+.price-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.price-card.featured .price-btn {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.price-card.featured .price-btn:hover { opacity: 0.9; }
+
+/* GUARANTEE */
+.guarantee {
+  margin-top: 40px;
+  padding: 24px 32px;
+  background: rgba(16,185,129,0.06);
+  border: 1px solid rgba(16,185,129,0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.guarantee-icon { font-size: 28px; flex-shrink: 0; }
+
+.guarantee h4 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 18px;
+  color: var(--heading);
+  font-weight: 400;
+  margin-bottom: 4px;
+}
+
+.guarantee p { font-size: 13px; color: var(--text); }
+
+/* FAQ */
+.faq-list { max-width: 720px; }
+
+.faq-item {
+  border-bottom: 1px solid var(--border);
+  padding: 24px 0;
+}
+
+.faq-q {
+  font-family: 'Instrument Serif', serif;
+  font-size: 18px;
+  color: var(--heading);
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+
+.faq-a { font-size: 13px; color: var(--text); line-height: 1.7; }
+
+/* CTA */
+.cta-section {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.cta-section h2 {
+  max-width: 600px;
+  margin: 0 auto 24px;
+}
+
+.cta-section .section-sub {
+  margin: 0 auto 40px;
+  text-align: center;
+}
+
+/* FOOTER */
+footer {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  padding: 48px 32px;
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.footer-logo {
+  font-family: 'Instrument Serif', serif;
+  font-size: 18px;
+  color: var(--heading);
+  text-decoration: none;
+}
+
+.footer-links {
+  display: flex;
+  gap: 24px;
+  list-style: none;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover { color: var(--text); }
+
+.footer-copy {
+  font-size: 11px;
+  color: var(--muted);
+  width: 100%;
+  text-align: center;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+  margin-top: 24px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .hero { padding: 100px 20px 60px; }
+  section { padding: 72px 20px; }
+  .problem-grid { grid-template-columns: 1fr; }
+  .outputs-grid { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: 1fr; }
+  .pricing-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 32px; }
+  .guarantee { flex-direction: column; text-align: center; }
+  footer { padding: 40px 20px; }
+}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav id="mainNav">
-  <div class="nav-logo">Vela<span>go</span></div>
-  <a href="https://form.typeform.com/to/N970zJeX" class="nav-cta">Take the Diagnostic</a>
+<nav>
+  <a href="/" class="nav-logo">Velago</a>
+  <ul class="nav-links">
+    <li><a href="#outputs">What We Build</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#pricing" class="nav-cta">Get Started</a></li>
+  </ul>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-grid-lines"></div>
-  <div class="hero-glow"></div>
-
-  <p class="hero-label">Authority Architecture — Southeast Asia</p>
-
-  <h1>
-    You Have 12 Years<br>
-    of Expertise. The Market<br>
-    <em>Cannot Find It.</em>
-  </h1>
-
-  <p class="hero-sub">
-    Velago builds systematic authority infrastructure for senior Finance
-    and IT executives across Southeast Asia. Done entirely for you.
-    Inbound results. Zero cold outreach.
-  </p>
-
-  <div class="hero-actions">
-    <a href="https://form.typeform.com/to/N970zJeX" class="btn-primary">
-      Take the Free Diagnostic
-      <span class="btn-arrow">→</span>
-    </a>
-    <span class="hero-note">3 minutes · No pitch · Personal review within 24hrs</span>
-  </div>
-
-  <div class="hero-scroll">
-    <span class="scroll-line"></span>
-    Scroll to explore
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">AI-Powered · Delivered in 24 hours · No calls required</div>
+    <h1 class="hero-title">Your clients deserve<br><em>better communications.</em><br>You deserve more time.</h1>
+    <p class="hero-sub">Velago generates client performance reports, LinkedIn content, newsletters, and proposals for independent financial advisors — delivered in 24 hours. Submit data. Receive polished outputs. Send to clients.</p>
+    <div class="hero-actions">
+      <a href="#pricing" class="btn-primary">Start for $99/month →</a>
+      <a href="#how" class="btn-secondary">See how it works ↓</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <span class="stat-num">24hrs</span>
+        <span class="stat-label">Delivery guarantee</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">4</span>
+        <span class="stat-label">Output types</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">$0</span>
+        <span class="stat-label">Setup cost</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">7-day</span>
+        <span class="stat-label">Money-back guarantee</span>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- PROBLEM -->
-<section class="problem">
-  <div class="container">
-    <div class="problem-layout">
-      <div class="problem-left">
-        <p class="section-label reveal">The Gap</p>
-        <h2 class="reveal reveal-delay-1">
-          The Invisible<br>
-          <em>Executive</em><br>
-          Problem
-        </h2>
+<section class="problem-section">
+  <div class="section-inner">
+    <span class="section-badge">The Problem</span>
+    <h2 class="section-title">Independent advisors lose hours every week to communications.</h2>
+    <p class="section-sub">The work that builds client trust — reports, updates, content — is the work that consumes the most time and gets done last.</p>
+    <div class="problem-grid">
+      <div class="problem-item">
+        <span class="problem-icon">⏱</span>
+        <h3>4–6 hours per client report</h3>
+        <p>Writing, formatting, and personalising performance summaries takes the bulk of an advisor's non-client time — every single month.</p>
       </div>
-      <div class="problem-right reveal reveal-delay-2">
-        <p>
-          Most senior Finance and IT leaders in SEA have spent 10–20 years building 
-          <strong>exceptional expertise.</strong> Board-level decisions. Complex system 
-          builds. Crisis management at scale. Real results.
-        </p>
-        <p>
-          None of it is visible outside their company. Meanwhile, executives with 
-          half the experience and twice the online presence are capturing 
-          <strong>the consulting retainers, board seats, and advisory opportunities.</strong>
-        </p>
-        <p>
-          This is not a credentials problem.<br>
-          It is an <strong>architecture problem.</strong>
-        </p>
-        <div class="gap-box reveal reveal-delay-3">
-          <div class="gap-box-label">The Reality</div>
-          <p>
-            "The market does not reward the most competent. 
-            It rewards the most credible. Competence is proven internally. 
-            Credibility is built publicly."
-          </p>
-        </div>
+      <div class="problem-item">
+        <span class="problem-icon">📉</span>
+        <h3>LinkedIn goes dark for months</h3>
+        <p>Advisors know they should be posting. They never do. The pipeline that LinkedIn could build stays empty while the calendar fills up.</p>
+      </div>
+      <div class="problem-item">
+        <span class="problem-icon">✉️</span>
+        <h3>Newsletters started, never continued</h3>
+        <p>Most advisors launch a newsletter once. Without a system to produce it consistently, it disappears after the second issue.</p>
+      </div>
+      <div class="problem-item">
+        <span class="problem-icon">📄</span>
+        <h3>Proposals written from scratch every time</h3>
+        <p>Every new prospect gets a proposal written from zero — same structure, different numbers, hours spent reinventing the same document.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- SOLUTION -->
-<section class="solution">
-  <div class="container">
-    <div class="solution-header">
-      <div>
-        <p class="section-label reveal">What We Build</p>
-        <h2 class="reveal reveal-delay-1">
-          Authority Architecture.<br>
-          <em>Done For You.</em>
-        </h2>
+<!-- OUTPUTS -->
+<section id="outputs">
+  <div class="section-inner">
+    <span class="section-badge">What Velago Builds</span>
+    <h2 class="section-title">Four outputs. All AI-generated. All yours.</h2>
+    <p class="section-sub">Submit your client data through a simple form. Receive polished, advisor-branded outputs within 24 hours. Review and send.</p>
+    <div class="outputs-grid">
+      <div class="output-card c1">
+        <span class="output-num">01</span>
+        <h3>Client Performance Reports</h3>
+        <p>AI-generated monthly and quarterly reports personalised to each client's portfolio, goals, and communication style. Formatted and ready to send.</p>
+        <span class="output-tag">Monthly · Quarterly · Custom</span>
       </div>
-      <p class="solution-intro reveal reveal-delay-2">
-        We extract your existing expertise through a structured process 
-        and turn it into consistent, high-signal presence published under 
-        your name. You do not write. You do not manage distribution. 
-        You do not follow up with leads. We build the system. 
-        You collect the inbound.
-      </p>
-    </div>
-
-    <div class="pillars">
-      <div class="pillar reveal">
-        <p class="pillar-num">01 / POSITION</p>
-        <h3>Position</h3>
-        <p>
-          We audit your current profile, define your unique positioning, 
-          and rewrite every element of your LinkedIn presence to attract 
-          the right decision-makers automatically.
-        </p>
+      <div class="output-card c2">
+        <span class="output-num">02</span>
+        <h3>LinkedIn Authority Content</h3>
+        <p>3–5 posts per week written in your voice, positioned for your ideal client, scheduled and ready to publish. Builds your pipeline while you serve existing clients.</p>
+        <span class="output-tag">3–5 posts/week</span>
       </div>
-      <div class="pillar reveal reveal-delay-1">
-        <p class="pillar-num">02 / PRODUCE</p>
-        <h3>Produce</h3>
-        <p>
-          We write and publish your content consistently — posts, articles, 
-          and newsletters — rooted in your real expertise. You review 
-          and approve. We publish on schedule.
-        </p>
+      <div class="output-card c3">
+        <span class="output-num">03</span>
+        <h3>Client Newsletters</h3>
+        <p>Monthly newsletters covering market context, portfolio insights, and advisor perspective — written in your voice, branded for your practice.</p>
+        <span class="output-tag">Monthly · Branded</span>
       </div>
-      <div class="pillar reveal reveal-delay-2">
-        <p class="pillar-num">03 / CONVERT</p>
-        <h3>Convert</h3>
-        <p>
-          We build the intake and follow-up system that turns inbound 
-          attention into qualified consulting and advisory conversations — 
-          without a single cold outreach.
-        </p>
+      <div class="output-card c4">
+        <span class="output-num">04</span>
+        <h3>Prospect Proposals</h3>
+        <p>Structured, professional proposals generated from prospect intake data. Covers goals, approach, fees, and timeline — ready to send within 24 hours of submission.</p>
+        <span class="output-tag">Per-prospect · Custom</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TIERS -->
-<section class="tiers">
-  <div class="container">
-    <div class="tiers-header">
-      <p class="section-label reveal">Investment</p>
-      <h2 class="reveal reveal-delay-1">
-        Three Levels of<br><em>Engagement</em>
-      </h2>
+<!-- HOW IT WORKS -->
+<section id="how" class="how-section">
+  <div class="section-inner">
+    <span class="section-badge">How It Works</span>
+    <h2 class="section-title">Three steps. No calls. No back-and-forth.</h2>
+    <p class="section-sub">Velago is built for advisors who are already at capacity. The process is designed to take less than 10 minutes of your time per output batch.</p>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <h3>Submit your data</h3>
+        <p>Complete a simple intake form with your client data, portfolio performance figures, or prospect details.</p>
+        <div class="step-detail">Takes 5–10 minutes. No formatting required. We handle the rest.</div>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <h3>Receive polished outputs</h3>
+        <p>Within 24 hours, your AI-generated reports, content, newsletter, or proposal lands in your inbox — formatted and ready.</p>
+        <div class="step-detail">Delivered as editable documents. Review takes 5 minutes. Request changes anytime.</div>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <h3>Review and send</h3>
+        <p>Read through your outputs, make any final adjustments, and send directly to clients or publish to LinkedIn.</p>
+        <div class="step-detail">All content belongs to you. No attribution. No co-branding. Fully yours.</div>
+      </div>
     </div>
-    <div class="tiers-grid">
+  </div>
+</section>
 
-      <!-- Signal -->
-      <div class="tier-card reveal">
-        <p class="tier-name">Signal</p>
-        <div class="tier-price">$1,500</div>
-        <div class="tier-period">/ month · USD</div>
-        <div class="tier-divider"></div>
-        <ul class="tier-features">
-          <li>Full LinkedIn profile architecture & rewrite</li>
-          <li>3× posts per week written from your expertise</li>
-          <li>Monthly positioning review and strategy update</li>
-          <li>Inbound DM response templates</li>
-          <li>Performance report monthly</li>
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-inner">
+    <span class="section-badge">Pricing</span>
+    <h2 class="section-title">One advisor. One monthly plan.</h2>
+    <p class="section-sub">No contracts. No setup fees. Cancel anytime. Start with the tier that fits your current output needs — upgrade as you grow.</p>
+    <div class="pricing-grid">
+
+      <div class="price-card">
+        <span class="price-tier">Core</span>
+        <div class="price-amount">$99</div>
+        <span class="price-period">/month</span>
+        <ul class="price-features">
+          <li>4 client performance reports/month</li>
+          <li>8 LinkedIn posts/month</li>
+          <li>AI-generated, advisor-branded</li>
+          <li>24-hour delivery</li>
+          <li>Email delivery</li>
         </ul>
-        <a href="https://form.typeform.com/to/N970zJeX" class="tier-cta">Start Diagnostic →</a>
+        <a href="#" class="price-btn">Get started →</a>
       </div>
 
-      <!-- Authority -->
-      <div class="tier-card featured reveal reveal-delay-1">
-        <div class="tier-badge">Most Selected</div>
-        <p class="tier-name">Authority</p>
-        <div class="tier-price">$3,000</div>
-        <div class="tier-period">/ month · USD</div>
-        <div class="tier-divider"></div>
-        <ul class="tier-features">
-          <li>Everything in Signal</li>
-          <li>Daily LinkedIn content production</li>
-          <li>Monthly Substack newsletter written & published</li>
-          <li>Engagement and comment strategy</li>
-          <li>Inbound lead qualification system</li>
-          <li>Weekly performance report</li>
+      <div class="price-card featured">
+        <span class="price-tier">Authority</span>
+        <div class="price-amount">$299</div>
+        <span class="price-period">/month</span>
+        <ul class="price-features">
+          <li>Unlimited client reports</li>
+          <li>LinkedIn posts — daily</li>
+          <li>Monthly client newsletter</li>
+          <li>24-hour delivery</li>
+          <li>Priority support</li>
         </ul>
-        <a href="https://form.typeform.com/to/N970zJeX" class="tier-cta">Start Diagnostic →</a>
+        <a href="#" class="price-btn">Get started →</a>
       </div>
 
-      <!-- Architect -->
-      <div class="tier-card reveal reveal-delay-2">
-        <p class="tier-name">Architect</p>
-        <div class="tier-price">$5,000</div>
-        <div class="tier-period">/ month · USD</div>
-        <div class="tier-divider"></div>
-        <ul class="tier-features">
+      <div class="price-card">
+        <span class="price-tier">Elite</span>
+        <div class="price-amount">$799</div>
+        <span class="price-period">/month</span>
+        <ul class="price-features">
           <li>Everything in Authority</li>
-          <li>Long-form thought leadership articles (2×/month)</li>
-          <li>Content repurposing across platforms</li>
-          <li>Full strategic narrative development</li>
-          <li>Quarterly authority audit and repositioning</li>
-          <li>Priority 24-hour response on all inbound</li>
+          <li>Human editorial review on all outputs</li>
+          <li>Prospect proposals included</li>
+          <li>Quarterly positioning audit</li>
+          <li>Weekly performance review</li>
         </ul>
-        <a href="https://form.typeform.com/to/N970zJeX" class="tier-cta">Start Diagnostic →</a>
+        <a href="#" class="price-btn">Get started →</a>
+      </div>
+
+      <div class="price-card">
+        <span class="price-tier">Concierge</span>
+        <div class="price-amount">$3,000</div>
+        <span class="price-period">/month</span>
+        <ul class="price-features">
+          <li>Everything in Elite</li>
+          <li>Full done-for-you delivery</li>
+          <li>Dedicated output manager</li>
+          <li>Custom output formats</li>
+          <li>Same-day turnaround</li>
+        </ul>
+        <a href="mailto:velago.app@gmail.com" class="price-btn">Contact us →</a>
       </div>
 
     </div>
-  </div>
-</section>
 
-<!-- FOR WHO -->
-<section class="forwho">
-  <div class="container">
-    <div class="forwho-layout">
-      <p class="section-label reveal" style="grid-column:1/-1">Qualification</p>
-      <h2 class="reveal reveal-delay-1">
-        Built for <em>Senior</em><br>Finance & IT<br>Executives in SEA
-      </h2>
-
-      <div class="reveal reveal-delay-2">
-        <p class="forwho-col-label yes">This is for you if</p>
-        <ul class="check-list">
-          <li>
-            <span class="check-icon yes">✓</span>
-            You have 10+ years of real operational experience in Finance or IT
-          </li>
-          <li>
-            <span class="check-icon yes">✓</span>
-            You want inbound consulting opportunities — not more job applications
-          </li>
-          <li>
-            <span class="check-icon yes">✓</span>
-            You have no time to produce content consistently yourself
-          </li>
-          <li>
-            <span class="check-icon yes">✓</span>
-            You are based in Indonesia, Singapore, Malaysia, or Australia
-          </li>
-          <li>
-            <span class="check-icon yes">✓</span>
-            You understand that visibility is a career and business asset
-          </li>
-        </ul>
-      </div>
-
-      <div class="reveal reveal-delay-3">
-        <p class="forwho-col-label no">This is not for you if</p>
-        <ul class="check-list">
-          <li>
-            <span class="check-icon no">✕</span>
-            You are early in your career (under 8 years of senior experience)
-          </li>
-          <li>
-            <span class="check-icon no">✕</span>
-            You want viral content or follower counts as the primary goal
-          </li>
-          <li>
-            <span class="check-icon no">✕</span>
-            You are not willing to share your real perspective publicly
-          </li>
-          <li>
-            <span class="check-icon no">✕</span>
-            You expect significant results in under 60 days
-          </li>
-          <li>
-            <span class="check-icon no">✕</span>
-            You want generic content that does not reflect your actual thinking
-          </li>
-        </ul>
+    <div class="guarantee">
+      <div class="guarantee-icon">🛡</div>
+      <div>
+        <h4>7-Day Money-Back Guarantee</h4>
+        <p>If Velago is not right for you, contact us within 7 days of your first payment for a full refund. No questions asked.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TIMELINE -->
-<section class="timeline">
-  <div class="container">
-    <p class="section-label reveal">What to Expect</p>
-    <h2 class="reveal reveal-delay-1">
-      A Predictable<br><em>Timeline</em>
-    </h2>
-    <div class="timeline-track">
-      <div class="timeline-item reveal">
-        <p class="timeline-month">Month 1–2</p>
-        <h4>Foundation</h4>
-        <p>Profile rebuilt. Positioning defined. Content rhythm established. First comments from decision-makers.</p>
+<!-- FAQ -->
+<section style="background: var(--surface); border-top: 1px solid var(--border);">
+  <div class="section-inner">
+    <span class="section-badge">Questions</span>
+    <h2 class="section-title">Common questions.</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q">Who is Velago built for?</div>
+        <div class="faq-a">Independent financial advisors who want to communicate more consistently with clients and prospects — without spending hours writing every report, post, and newsletter themselves.</div>
       </div>
-      <div class="timeline-item reveal reveal-delay-1">
-        <p class="timeline-month">Month 3–4</p>
-        <h4>Recognition</h4>
-        <p>Inbound messages begin. First qualified inquiry arrives from someone who found you organically.</p>
+      <div class="faq-item">
+        <div class="faq-q">Is the content compliant with financial regulations?</div>
+        <div class="faq-a">All outputs are generated as drafts for your review. You are responsible for reviewing content for compliance with applicable regulations in your jurisdiction before sending to clients. We produce the content — you approve it.</div>
       </div>
-      <div class="timeline-item reveal reveal-delay-2">
-        <p class="timeline-month">Month 5–6</p>
-        <h4>Momentum</h4>
-        <p>Consistent inbound. Speaking or media invitation. First consulting or advisory conversation closed.</p>
+      <div class="faq-item">
+        <div class="faq-q">How do I submit my client data?</div>
+        <div class="faq-a">Through a simple, secure intake form. No software to install. No integrations required. Fill out the form with your client data and performance figures — we handle everything from there.</div>
       </div>
-      <div class="timeline-item reveal reveal-delay-3">
-        <p class="timeline-month">Month 7–12</p>
-        <h4>Authority</h4>
-        <p>Opportunities find you. Your name is in conversations you are not in. The market knows who you are.</p>
+      <div class="faq-item">
+        <div class="faq-q">Who owns the outputs?</div>
+        <div class="faq-a">You do. All content generated for your account is fully yours — no co-branding, no attribution, no restrictions on use.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Can I cancel at any time?</div>
+        <div class="faq-a">Yes. Cancel anytime from your account — no notice period required. Your access continues until the end of your paid billing period.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">What if I need changes to an output?</div>
+        <div class="faq-a">Request revisions by replying to your delivery email. We update and return outputs within 24 hours of your revision request.</div>
       </div>
     </div>
   </div>
@@ -1167,52 +906,32 @@
 
 <!-- CTA -->
 <section class="cta-section">
-  <div class="container">
-    <p class="section-label">Start Here</p>
-    <h2>
-      Take the Free<br>
-      <em>Diagnostic</em>
-    </h2>
-    <p>
-      3 minutes. We review every submission personally and send your 
-      specific breakdown within 24 hours. No generic responses. 
-      No sales scripts.
-    </p>
-    <a href="https://form.typeform.com/to/N970zJeX" class="btn-primary">
-      Take the Free Diagnostic
-      <span class="btn-arrow">→</span>
-    </a>
+  <div class="section-inner">
+    <span class="section-badge">Get Started</span>
+    <h2 class="section-title" style="margin: 0 auto 16px;">Your next client report<br><em>writes itself.</em></h2>
+    <p class="section-sub">Join financial advisors who have stopped spending weekends on client communications.</p>
+    <a href="#pricing" class="btn-primary">Start for $99/month →</a>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Vela<span>go</span></div>
-  <div class="footer-meta">
-    Authority Architecture for Finance & IT Executives in SEA<br>
-    Indonesia · Singapore · Malaysia · Australia<br>
-    © 2026 Velago
+  <div class="footer-inner">
+    <a href="/" class="footer-logo">Velago</a>
+    <ul class="footer-links">
+      <li><a href="#outputs">What We Build</a></li>
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="/terms">Terms</a></li>
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/refund">Refunds</a></li>
+      <li><a href="mailto:velago.app@gmail.com">Contact</a></li>
+    </ul>
+    <div class="footer-copy">
+      © 2026 New Era Aviation · Velago · velago.app · velago.app@gmail.com
+    </div>
   </div>
 </footer>
 
-<script>
-  // Nav scroll state
-  const nav = document.getElementById('mainNav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
-  });
-
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.12 });
-
-  reveals.forEach(el => observer.observe(el));
-</script>
 </body>
 </html>
