@@ -3,662 +3,147 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Velago — AI Communications for Financial Advisors</title>
-<meta name="description" content="Velago generates client reports, LinkedIn content, newsletters, and proposals for independent financial advisors. Submit data. Receive polished outputs in 24 hours.">
+<title>VelaGo — AI Communications for Financial Advisors</title>
+<meta name="description" content="VelaGo generates client reports, LinkedIn content, newsletters, and proposals for independent financial advisors. Submit data. Receive polished outputs in 24 hours.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+<script>
+  window.addEventListener('load', function() {
+    Paddle.Initialize({ token: 'live_d7c9a06b36d5515bd8b256cb4cc' });
+  });
+  function openCheckout(priceId) {
+    Paddle.Checkout.open({
+      items: [{ priceId: priceId, quantity: 1 }],
+      settings: { displayMode: 'overlay', theme: 'dark', locale: 'en' }
+    });
+  }
+</script>
 <style>
 :root {
-  --bg: #07090d;
-  --surface: #0e1118;
-  --surface2: #131720;
-  --border: #1a2035;
-  --border2: #242d42;
-  --text: #9aa5be;
-  --text2: #c5cfe0;
-  --heading: #eef2ff;
-  --muted: #3d4a63;
-  --accent: #4f8ef7;
-  --accent2: #7eb3ff;
-  --green: #10b981;
-  --green2: #34d399;
-  --amber: #f59e0b;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'DM Mono', monospace;
-  font-size: 14px;
-  line-height: 1.7;
-  overflow-x: hidden;
-}
-
-/* NAV */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  padding: 0 32px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: rgba(7,9,13,0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-}
-
-.nav-logo {
-  font-family: 'Instrument Serif', serif;
-  font-size: 20px;
-  color: var(--heading);
-  text-decoration: none;
-  letter-spacing: -0.3px;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  list-style: none;
-}
-
-.nav-links a {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 12px;
-  letter-spacing: 0.5px;
-  transition: color 0.2s;
-}
-
-.nav-links a:hover { color: var(--text2); }
-
-.nav-cta {
-  background: var(--accent);
-  color: #fff !important;
-  padding: 8px 18px;
-  border-radius: 6px;
-  font-size: 12px !important;
-  transition: opacity 0.2s !important;
-}
-
-.nav-cta:hover { opacity: 0.85; color: #fff !important; }
-
-/* HERO */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  padding: 120px 32px 80px;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  top: -200px; left: 50%;
-  transform: translateX(-50%);
-  width: 800px; height: 800px;
-  background: radial-gradient(ellipse, rgba(79,142,247,0.06) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-.hero-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(var(--border) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border) 1px, transparent 1px);
-  background-size: 60px 60px;
-  opacity: 0.3;
-  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 100%);
-}
-
-.hero-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  width: 100%;
-  position: relative;
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(16,185,129,0.08);
-  border: 1px solid rgba(16,185,129,0.2);
-  border-radius: 100px;
-  padding: 6px 14px;
-  font-size: 11px;
-  color: var(--green2);
-  letter-spacing: 1px;
-  margin-bottom: 32px;
-  animation: fadeUp 0.6s ease forwards;
-}
-
-.hero-badge::before {
-  content: '';
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--green);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.8); }
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-h1.hero-title {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(38px, 6vw, 72px);
-  color: var(--heading);
-  font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: -1px;
-  margin-bottom: 24px;
-  max-width: 800px;
-  animation: fadeUp 0.6s 0.1s ease both;
-}
-
-h1.hero-title em {
-  font-style: italic;
-  color: var(--accent2);
-}
-
-.hero-sub {
-  font-size: 16px;
-  color: var(--text);
-  max-width: 540px;
-  line-height: 1.7;
-  margin-bottom: 40px;
-  animation: fadeUp 0.6s 0.2s ease both;
-  font-family: 'DM Mono', monospace;
-}
-
-.hero-actions {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  flex-wrap: wrap;
-  animation: fadeUp 0.6s 0.3s ease both;
-}
-
-.btn-primary {
-  background: var(--accent);
-  color: #fff;
-  padding: 14px 28px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 13px;
-  font-family: 'DM Mono', monospace;
-  font-weight: 500;
-  transition: opacity 0.2s, transform 0.2s;
-  display: inline-block;
-}
-
-.btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
-
-.btn-secondary {
-  color: var(--text);
-  text-decoration: none;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: color 0.2s;
-}
-
-.btn-secondary:hover { color: var(--heading); }
-
-.hero-stats {
-  display: flex;
-  gap: 48px;
-  margin-top: 72px;
-  padding-top: 48px;
-  border-top: 1px solid var(--border);
-  flex-wrap: wrap;
-  animation: fadeUp 0.6s 0.4s ease both;
-}
-
-.stat-item {}
-.stat-num {
-  font-family: 'Instrument Serif', serif;
-  font-size: 32px;
-  color: var(--heading);
-  display: block;
-  margin-bottom: 4px;
-}
-.stat-label { font-size: 11px; color: var(--muted); letter-spacing: 1px; }
-
-/* SECTION BASE */
-section { padding: 100px 32px; }
-.section-inner { max-width: 1100px; margin: 0 auto; }
-
-.section-badge {
-  font-size: 10px;
-  letter-spacing: 3px;
-  color: var(--muted);
-  text-transform: uppercase;
-  margin-bottom: 16px;
-  display: block;
-}
-
-h2.section-title {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(28px, 4vw, 44px);
-  color: var(--heading);
-  font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: -0.5px;
-  margin-bottom: 16px;
-  max-width: 600px;
-}
-
-.section-sub {
-  color: var(--text);
-  font-size: 14px;
-  max-width: 520px;
-  line-height: 1.7;
-  margin-bottom: 64px;
-}
-
-/* PROBLEM */
-.problem-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-
-.problem-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.problem-item {
-  background: var(--surface2);
-  padding: 32px;
-}
-
-.problem-icon {
-  font-size: 24px;
-  margin-bottom: 16px;
-  display: block;
-}
-
-.problem-item h3 {
-  font-family: 'Instrument Serif', serif;
-  font-size: 18px;
-  color: var(--heading);
-  font-weight: 400;
-  margin-bottom: 8px;
-}
-
-.problem-item p { font-size: 13px; color: var(--text); line-height: 1.6; }
-
-/* OUTPUTS */
-.outputs-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-
-.output-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 32px;
-  position: relative;
-  overflow: hidden;
-  transition: border-color 0.2s;
-}
-
-.output-card:hover { border-color: var(--border2); }
-
-.output-card::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-}
-
-.output-card.c1::before { background: linear-gradient(90deg, var(--accent), transparent); }
-.output-card.c2::before { background: linear-gradient(90deg, var(--green), transparent); }
-.output-card.c3::before { background: linear-gradient(90deg, var(--amber), transparent); }
-.output-card.c4::before { background: linear-gradient(90deg, #a78bfa, transparent); }
-
-.output-num {
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: var(--muted);
-  margin-bottom: 16px;
-  display: block;
-}
-
-.output-card h3 {
-  font-family: 'Instrument Serif', serif;
-  font-size: 22px;
-  color: var(--heading);
-  font-weight: 400;
-  margin-bottom: 12px;
-}
-
-.output-card p { font-size: 13px; color: var(--text); line-height: 1.6; margin-bottom: 20px; }
-
-.output-tag {
-  display: inline-block;
-  font-size: 10px;
-  letter-spacing: 1px;
-  padding: 4px 10px;
-  border-radius: 4px;
-  border: 1px solid var(--border2);
-  color: var(--muted);
-}
-
-/* HOW IT WORKS */
-.how-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-
-.steps {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.step {
-  background: var(--bg);
-  padding: 40px 32px;
-  position: relative;
-}
-
-.step-num {
-  font-family: 'Instrument Serif', serif;
-  font-size: 48px;
-  color: var(--border2);
-  line-height: 1;
-  margin-bottom: 20px;
-  display: block;
-}
-
-.step h3 {
-  font-family: 'Instrument Serif', serif;
-  font-size: 20px;
-  color: var(--heading);
-  font-weight: 400;
-  margin-bottom: 12px;
-}
-
-.step p { font-size: 13px; color: var(--text); line-height: 1.6; }
-
-.step-detail {
-  margin-top: 16px;
-  font-size: 11px;
-  color: var(--muted);
-  padding: 10px 14px;
-  background: var(--surface);
-  border-radius: 6px;
-  border: 1px solid var(--border);
-  line-height: 1.6;
-}
-
-/* PRICING */
-#pricing { background: var(--bg); }
-
-.pricing-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  align-items: start;
-}
-
-.price-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 28px 24px;
-  position: relative;
-  transition: border-color 0.2s, transform 0.2s;
-}
-
-.price-card:hover { border-color: var(--border2); transform: translateY(-2px); }
-
-.price-card.featured {
-  border-color: var(--accent);
-  background: linear-gradient(160deg, rgba(79,142,247,0.06) 0%, var(--surface) 60%);
-}
-
-.price-card.featured::after {
-  content: 'MOST POPULAR';
-  position: absolute;
-  top: -1px; left: 50%;
-  transform: translateX(-50%);
-  background: var(--accent);
-  color: #fff;
-  font-size: 9px;
-  letter-spacing: 2px;
-  padding: 4px 12px;
-  border-radius: 0 0 6px 6px;
-}
-
-.price-tier {
-  font-size: 10px;
-  letter-spacing: 3px;
-  color: var(--muted);
-  text-transform: uppercase;
-  margin-bottom: 16px;
-  display: block;
-}
-
-.price-amount {
-  font-family: 'Instrument Serif', serif;
-  font-size: 36px;
-  color: var(--heading);
-  line-height: 1;
-  margin-bottom: 4px;
-}
-
-.price-period {
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 24px;
-  display: block;
-}
-
-.price-features {
-  list-style: none;
-  margin-bottom: 28px;
-}
-
-.price-features li {
-  font-size: 12px;
-  color: var(--text);
-  padding: 6px 0;
-  border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  line-height: 1.4;
-}
-
-.price-features li:last-child { border-bottom: none; }
-
-.price-features li::before {
-  content: '→';
-  color: var(--accent);
-  flex-shrink: 0;
-  font-size: 11px;
-  margin-top: 1px;
-}
-
-.price-btn {
-  display: block;
-  text-align: center;
-  padding: 12px;
-  border-radius: 7px;
-  font-size: 12px;
-  font-family: 'DM Mono', monospace;
-  text-decoration: none;
-  transition: all 0.2s;
-  border: 1px solid var(--border2);
-  color: var(--text2);
-  background: transparent;
-}
-
-.price-btn:hover { border-color: var(--accent); color: var(--accent); }
-
-.price-card.featured .price-btn {
-  background: var(--accent);
-  color: #fff;
-  border-color: var(--accent);
-}
-
-.price-card.featured .price-btn:hover { opacity: 0.9; }
-
-/* GUARANTEE */
-.guarantee {
-  margin-top: 40px;
-  padding: 24px 32px;
-  background: rgba(16,185,129,0.06);
-  border: 1px solid rgba(16,185,129,0.2);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-.guarantee-icon { font-size: 28px; flex-shrink: 0; }
-
-.guarantee h4 {
-  font-family: 'Instrument Serif', serif;
-  font-size: 18px;
-  color: var(--heading);
-  font-weight: 400;
-  margin-bottom: 4px;
-}
-
-.guarantee p { font-size: 13px; color: var(--text); }
-
-/* FAQ */
-.faq-list { max-width: 720px; }
-
-.faq-item {
-  border-bottom: 1px solid var(--border);
-  padding: 24px 0;
-}
-
-.faq-q {
-  font-family: 'Instrument Serif', serif;
-  font-size: 18px;
-  color: var(--heading);
-  font-weight: 400;
-  margin-bottom: 10px;
-}
-
-.faq-a { font-size: 13px; color: var(--text); line-height: 1.7; }
-
-/* CTA */
-.cta-section {
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  text-align: center;
-}
-
-.cta-section h2 {
-  max-width: 600px;
-  margin: 0 auto 24px;
-}
-
-.cta-section .section-sub {
-  margin: 0 auto 40px;
-  text-align: center;
-}
-
-/* FOOTER */
-footer {
-  background: var(--bg);
-  border-top: 1px solid var(--border);
-  padding: 48px 32px;
-}
-
-.footer-inner {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 24px;
-}
-
-.footer-logo {
-  font-family: 'Instrument Serif', serif;
-  font-size: 18px;
-  color: var(--heading);
-  text-decoration: none;
-}
-
-.footer-links {
-  display: flex;
-  gap: 24px;
-  list-style: none;
-  flex-wrap: wrap;
-}
-
-.footer-links a {
-  font-size: 12px;
-  color: var(--muted);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.footer-links a:hover { color: var(--text); }
-
-.footer-copy {
-  font-size: 11px;
-  color: var(--muted);
-  width: 100%;
-  text-align: center;
-  padding-top: 32px;
-  border-top: 1px solid var(--border);
-  margin-top: 24px;
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  nav { padding: 0 20px; }
-  .nav-links { display: none; }
-  .hero { padding: 100px 20px 60px; }
-  section { padding: 72px 20px; }
-  .problem-grid { grid-template-columns: 1fr; }
-  .outputs-grid { grid-template-columns: 1fr; }
-  .steps { grid-template-columns: 1fr; }
-  .pricing-grid { grid-template-columns: 1fr; }
-  .hero-stats { gap: 32px; }
-  .guarantee { flex-direction: column; text-align: center; }
-  footer { padding: 40px 20px; }
+  --bg:#07090d; --surface:#0e1118; --surface2:#131720;
+  --border:#1a2035; --border2:#242d42;
+  --text:#9aa5be; --text2:#c5cfe0; --heading:#eef2ff; --muted:#3d4a63;
+  --accent:#4f8ef7; --accent2:#7eb3ff;
+  --green:#10b981; --green2:#34d399; --amber:#f59e0b;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'DM Mono',monospace;font-size:14px;line-height:1.7;overflow-x:hidden;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 32px;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(7,9,13,0.9);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);}
+.nav-logo{font-family:'Instrument Serif',serif;font-size:20px;color:var(--heading);text-decoration:none;}
+.nav-links{display:flex;align-items:center;gap:32px;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:12px;letter-spacing:.5px;transition:color .2s;}
+.nav-links a:hover{color:var(--text2);}
+.nav-cta{background:var(--accent)!important;color:#fff!important;padding:8px 18px;border-radius:6px;}
+
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 32px 80px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(ellipse,rgba(79,142,247,.06) 0%,transparent 70%);pointer-events:none;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:.3;mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,black 0%,transparent 100%);}
+.hero-inner{max-width:1100px;margin:0 auto;width:100%;position:relative;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.2);border-radius:100px;padding:6px 14px;font-size:11px;color:var(--green2);letter-spacing:1px;margin-bottom:32px;}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+
+h1.hero-title{font-family:'Instrument Serif',serif;font-size:clamp(38px,6vw,72px);color:var(--heading);font-weight:400;line-height:1.1;letter-spacing:-1px;margin-bottom:24px;max-width:800px;}
+h1.hero-title em{font-style:italic;color:var(--accent2);}
+.hero-sub{font-size:16px;color:var(--text);max-width:540px;line-height:1.7;margin-bottom:40px;}
+.hero-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
+.btn-primary{background:var(--accent);color:#fff;padding:14px 28px;border-radius:8px;text-decoration:none;font-size:13px;font-family:'DM Mono',monospace;font-weight:500;transition:opacity .2s,transform .2s;display:inline-block;cursor:pointer;border:none;}
+.btn-primary:hover{opacity:.9;transform:translateY(-1px);}
+.btn-secondary{color:var(--text);text-decoration:none;font-size:13px;display:flex;align-items:center;gap:8px;transition:color .2s;}
+.btn-secondary:hover{color:var(--heading);}
+.hero-stats{display:flex;gap:48px;margin-top:72px;padding-top:48px;border-top:1px solid var(--border);flex-wrap:wrap;}
+.stat-num{font-family:'Instrument Serif',serif;font-size:32px;color:var(--heading);display:block;margin-bottom:4px;}
+.stat-label{font-size:11px;color:var(--muted);letter-spacing:1px;}
+
+section{padding:100px 32px;}
+.section-inner{max-width:1100px;margin:0 auto;}
+.section-badge{font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:16px;display:block;}
+h2.section-title{font-family:'Instrument Serif',serif;font-size:clamp(28px,4vw,44px);color:var(--heading);font-weight:400;line-height:1.2;letter-spacing:-.5px;margin-bottom:16px;max-width:600px;}
+.section-sub{color:var(--text);font-size:14px;max-width:520px;line-height:1.7;margin-bottom:64px;}
+
+.problem-section{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.problem-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.problem-item{background:var(--surface2);padding:32px;}
+.problem-icon{font-size:24px;margin-bottom:16px;display:block;}
+.problem-item h3{font-family:'Instrument Serif',serif;font-size:18px;color:var(--heading);font-weight:400;margin-bottom:8px;}
+.problem-item p{font-size:13px;color:var(--text);line-height:1.6;}
+
+.outputs-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
+.output-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:32px;position:relative;overflow:hidden;transition:border-color .2s;}
+.output-card:hover{border-color:var(--border2);}
+.output-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.output-card.c1::before{background:linear-gradient(90deg,var(--accent),transparent);}
+.output-card.c2::before{background:linear-gradient(90deg,var(--green),transparent);}
+.output-card.c3::before{background:linear-gradient(90deg,var(--amber),transparent);}
+.output-card.c4::before{background:linear-gradient(90deg,#a78bfa,transparent);}
+.output-num{font-size:11px;letter-spacing:2px;color:var(--muted);margin-bottom:16px;display:block;}
+.output-card h3{font-family:'Instrument Serif',serif;font-size:22px;color:var(--heading);font-weight:400;margin-bottom:12px;}
+.output-card p{font-size:13px;color:var(--text);line-height:1.6;margin-bottom:20px;}
+.output-tag{display:inline-block;font-size:10px;letter-spacing:1px;padding:4px 10px;border-radius:4px;border:1px solid var(--border2);color:var(--muted);}
+
+.how-section{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.step{background:var(--bg);padding:40px 32px;}
+.step-num{font-family:'Instrument Serif',serif;font-size:48px;color:var(--border2);line-height:1;margin-bottom:20px;display:block;}
+.step h3{font-family:'Instrument Serif',serif;font-size:20px;color:var(--heading);font-weight:400;margin-bottom:12px;}
+.step p{font-size:13px;color:var(--text);line-height:1.6;}
+.step-detail{margin-top:16px;font-size:11px;color:var(--muted);padding:10px 14px;background:var(--surface);border-radius:6px;border:1px solid var(--border);line-height:1.6;}
+
+#pricing{background:var(--bg);}
+.pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:start;}
+.price-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 24px;position:relative;transition:border-color .2s,transform .2s;}
+.price-card:hover{border-color:var(--border2);transform:translateY(-2px);}
+.price-card.featured{border-color:var(--accent);background:linear-gradient(160deg,rgba(79,142,247,.06) 0%,var(--surface) 60%);}
+.price-card.featured::after{content:'MOST POPULAR';position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:9px;letter-spacing:2px;padding:4px 12px;border-radius:0 0 6px 6px;}
+.price-tier{font-size:10px;letter-spacing:3px;color:var(--muted);text-transform:uppercase;margin-bottom:16px;display:block;}
+.price-amount{font-family:'Instrument Serif',serif;font-size:36px;color:var(--heading);line-height:1;margin-bottom:4px;}
+.price-period{font-size:12px;color:var(--muted);margin-bottom:24px;display:block;}
+.price-features{list-style:none;margin-bottom:28px;}
+.price-features li{font-size:12px;color:var(--text);padding:6px 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:8px;line-height:1.4;}
+.price-features li:last-child{border-bottom:none;}
+.price-features li::before{content:'→';color:var(--accent);flex-shrink:0;font-size:11px;margin-top:1px;}
+.price-btn{display:block;text-align:center;width:100%;padding:12px;border-radius:7px;font-size:12px;font-family:'DM Mono',monospace;text-decoration:none;transition:all .2s;border:1px solid var(--border2);color:var(--text2);background:transparent;cursor:pointer;}
+.price-btn:hover{border-color:var(--accent);color:var(--accent);}
+.price-card.featured .price-btn{background:var(--accent);color:#fff;border-color:var(--accent);}
+.price-card.featured .price-btn:hover{opacity:.9;}
+.guarantee{margin-top:40px;padding:24px 32px;background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.2);border-radius:12px;display:flex;align-items:center;gap:20px;}
+.guarantee-icon{font-size:28px;flex-shrink:0;}
+.guarantee h4{font-family:'Instrument Serif',serif;font-size:18px;color:var(--heading);font-weight:400;margin-bottom:4px;}
+.guarantee p{font-size:13px;color:var(--text);}
+
+.faq-list{max-width:720px;}
+.faq-item{border-bottom:1px solid var(--border);padding:24px 0;}
+.faq-q{font-family:'Instrument Serif',serif;font-size:18px;color:var(--heading);font-weight:400;margin-bottom:10px;}
+.faq-a{font-size:13px;color:var(--text);line-height:1.7;}
+
+.cta-section{background:var(--surface);border-top:1px solid var(--border);text-align:center;}
+.cta-section h2{max-width:600px;margin:0 auto 24px;}
+.cta-section .section-sub{margin:0 auto 40px;text-align:center;}
+
+footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 32px;}
+.footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px;}
+.footer-logo{font-family:'Instrument Serif',serif;font-size:18px;color:var(--heading);text-decoration:none;}
+.footer-links{display:flex;gap:24px;list-style:none;flex-wrap:wrap;}
+.footer-links a{font-size:12px;color:var(--muted);text-decoration:none;transition:color .2s;}
+.footer-links a:hover{color:var(--text);}
+.footer-copy{font-size:11px;color:var(--muted);width:100%;text-align:center;padding-top:32px;border-top:1px solid var(--border);margin-top:24px;}
+
+@media(max-width:768px){
+  nav{padding:0 20px;} .nav-links{display:none;}
+  .hero{padding:100px 20px 60px;} section{padding:72px 20px;}
+  .problem-grid,.outputs-grid,.steps,.pricing-grid{grid-template-columns:1fr;}
+  .hero-stats{gap:32px;} .guarantee{flex-direction:column;text-align:center;}
+  footer{padding:40px 20px;}
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <a href="/" class="nav-logo">Velago</a>
+  <a href="/" class="nav-logo">VelaGo</a>
   <ul class="nav-links">
     <li><a href="#outputs">What We Build</a></li>
     <li><a href="#how">How It Works</a></li>
@@ -667,141 +152,72 @@ footer {
   </ul>
 </nav>
 
-<!-- HERO -->
 <section class="hero">
   <div class="hero-grid"></div>
   <div class="hero-inner">
     <div class="hero-badge">AI-Powered · Delivered in 24 hours · No calls required</div>
     <h1 class="hero-title">Your clients deserve<br><em>better communications.</em><br>You deserve more time.</h1>
-    <p class="hero-sub">Velago generates client performance reports, LinkedIn content, newsletters, and proposals for independent financial advisors — delivered in 24 hours. Submit data. Receive polished outputs. Send to clients.</p>
+    <p class="hero-sub">VelaGo generates client performance reports, LinkedIn content, newsletters, and proposals for independent financial advisors — delivered in 24 hours. Submit data. Receive polished outputs. Send to clients.</p>
     <div class="hero-actions">
-      <a href="#pricing" class="btn-primary">Start for $99/month →</a>
+      <button class="btn-primary" onclick="openCheckout('pri_01krb5aws6r4ar5y89yvb721r0')">Start for $99/month →</button>
       <a href="#how" class="btn-secondary">See how it works ↓</a>
     </div>
     <div class="hero-stats">
-      <div class="stat-item">
-        <span class="stat-num">24hrs</span>
-        <span class="stat-label">Delivery guarantee</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-num">4</span>
-        <span class="stat-label">Output types</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-num">$0</span>
-        <span class="stat-label">Setup cost</span>
-      </div>
-      <div class="stat-item">
-        <span class="stat-num">7-day</span>
-        <span class="stat-label">Money-back guarantee</span>
-      </div>
+      <div class="stat-item"><span class="stat-num">24hrs</span><span class="stat-label">Delivery guarantee</span></div>
+      <div class="stat-item"><span class="stat-num">4</span><span class="stat-label">Output types</span></div>
+      <div class="stat-item"><span class="stat-num">$0</span><span class="stat-label">Setup cost</span></div>
+      <div class="stat-item"><span class="stat-num">7-day</span><span class="stat-label">Money-back guarantee</span></div>
     </div>
   </div>
 </section>
 
-<!-- PROBLEM -->
 <section class="problem-section">
   <div class="section-inner">
     <span class="section-badge">The Problem</span>
     <h2 class="section-title">Independent advisors lose hours every week to communications.</h2>
     <p class="section-sub">The work that builds client trust — reports, updates, content — is the work that consumes the most time and gets done last.</p>
     <div class="problem-grid">
-      <div class="problem-item">
-        <span class="problem-icon">⏱</span>
-        <h3>4–6 hours per client report</h3>
-        <p>Writing, formatting, and personalising performance summaries takes the bulk of an advisor's non-client time — every single month.</p>
-      </div>
-      <div class="problem-item">
-        <span class="problem-icon">📉</span>
-        <h3>LinkedIn goes dark for months</h3>
-        <p>Advisors know they should be posting. They never do. The pipeline that LinkedIn could build stays empty while the calendar fills up.</p>
-      </div>
-      <div class="problem-item">
-        <span class="problem-icon">✉️</span>
-        <h3>Newsletters started, never continued</h3>
-        <p>Most advisors launch a newsletter once. Without a system to produce it consistently, it disappears after the second issue.</p>
-      </div>
-      <div class="problem-item">
-        <span class="problem-icon">📄</span>
-        <h3>Proposals written from scratch every time</h3>
-        <p>Every new prospect gets a proposal written from zero — same structure, different numbers, hours spent reinventing the same document.</p>
-      </div>
+      <div class="problem-item"><span class="problem-icon">⏱</span><h3>4–6 hours per client report</h3><p>Writing, formatting, and personalising performance summaries takes the bulk of an advisor's non-client time — every single month.</p></div>
+      <div class="problem-item"><span class="problem-icon">📉</span><h3>LinkedIn goes dark for months</h3><p>Advisors know they should be posting. They never do. The pipeline that LinkedIn could build stays empty while the calendar fills up.</p></div>
+      <div class="problem-item"><span class="problem-icon">✉️</span><h3>Newsletters started, never continued</h3><p>Most advisors launch a newsletter once. Without a system to produce it consistently, it disappears after the second issue.</p></div>
+      <div class="problem-item"><span class="problem-icon">📄</span><h3>Proposals written from scratch every time</h3><p>Every new prospect gets a proposal written from zero — same structure, different numbers, hours spent reinventing the same document.</p></div>
     </div>
   </div>
 </section>
 
-<!-- OUTPUTS -->
 <section id="outputs">
   <div class="section-inner">
-    <span class="section-badge">What Velago Builds</span>
+    <span class="section-badge">What VelaGo Builds</span>
     <h2 class="section-title">Four outputs. All AI-generated. All yours.</h2>
     <p class="section-sub">Submit your client data through a simple form. Receive polished, advisor-branded outputs within 24 hours. Review and send.</p>
     <div class="outputs-grid">
-      <div class="output-card c1">
-        <span class="output-num">01</span>
-        <h3>Client Performance Reports</h3>
-        <p>AI-generated monthly and quarterly reports personalised to each client's portfolio, goals, and communication style. Formatted and ready to send.</p>
-        <span class="output-tag">Monthly · Quarterly · Custom</span>
-      </div>
-      <div class="output-card c2">
-        <span class="output-num">02</span>
-        <h3>LinkedIn Authority Content</h3>
-        <p>3–5 posts per week written in your voice, positioned for your ideal client, scheduled and ready to publish. Builds your pipeline while you serve existing clients.</p>
-        <span class="output-tag">3–5 posts/week</span>
-      </div>
-      <div class="output-card c3">
-        <span class="output-num">03</span>
-        <h3>Client Newsletters</h3>
-        <p>Monthly newsletters covering market context, portfolio insights, and advisor perspective — written in your voice, branded for your practice.</p>
-        <span class="output-tag">Monthly · Branded</span>
-      </div>
-      <div class="output-card c4">
-        <span class="output-num">04</span>
-        <h3>Prospect Proposals</h3>
-        <p>Structured, professional proposals generated from prospect intake data. Covers goals, approach, fees, and timeline — ready to send within 24 hours of submission.</p>
-        <span class="output-tag">Per-prospect · Custom</span>
-      </div>
+      <div class="output-card c1"><span class="output-num">01</span><h3>Client Performance Reports</h3><p>AI-generated monthly and quarterly reports personalised to each client's portfolio, goals, and communication style. Formatted and ready to send.</p><span class="output-tag">Monthly · Quarterly · Custom</span></div>
+      <div class="output-card c2"><span class="output-num">02</span><h3>LinkedIn Authority Content</h3><p>3–5 posts per week written in your voice, positioned for your ideal client, scheduled and ready to publish. Builds your pipeline while you serve existing clients.</p><span class="output-tag">3–5 posts/week</span></div>
+      <div class="output-card c3"><span class="output-num">03</span><h3>Client Newsletters</h3><p>Monthly newsletters covering market context, portfolio insights, and advisor perspective — written in your voice, branded for your practice.</p><span class="output-tag">Monthly · Branded</span></div>
+      <div class="output-card c4"><span class="output-num">04</span><h3>Prospect Proposals</h3><p>Structured, professional proposals generated from prospect intake data. Covers goals, approach, fees, and timeline — ready to send within 24 hours of submission.</p><span class="output-tag">Per-prospect · Custom</span></div>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
 <section id="how" class="how-section">
   <div class="section-inner">
     <span class="section-badge">How It Works</span>
     <h2 class="section-title">Three steps. No calls. No back-and-forth.</h2>
-    <p class="section-sub">Velago is built for advisors who are already at capacity. The process is designed to take less than 10 minutes of your time per output batch.</p>
+    <p class="section-sub">VelaGo is built for advisors who are already at capacity. The process is designed to take less than 10 minutes of your time per output batch.</p>
     <div class="steps">
-      <div class="step">
-        <span class="step-num">01</span>
-        <h3>Submit your data</h3>
-        <p>Complete a simple intake form with your client data, portfolio performance figures, or prospect details.</p>
-        <div class="step-detail">Takes 5–10 minutes. No formatting required. We handle the rest.</div>
-      </div>
-      <div class="step">
-        <span class="step-num">02</span>
-        <h3>Receive polished outputs</h3>
-        <p>Within 24 hours, your AI-generated reports, content, newsletter, or proposal lands in your inbox — formatted and ready.</p>
-        <div class="step-detail">Delivered as editable documents. Review takes 5 minutes. Request changes anytime.</div>
-      </div>
-      <div class="step">
-        <span class="step-num">03</span>
-        <h3>Review and send</h3>
-        <p>Read through your outputs, make any final adjustments, and send directly to clients or publish to LinkedIn.</p>
-        <div class="step-detail">All content belongs to you. No attribution. No co-branding. Fully yours.</div>
-      </div>
+      <div class="step"><span class="step-num">01</span><h3>Submit your data</h3><p>Complete a simple intake form with your client data, portfolio performance figures, or prospect details.</p><div class="step-detail">Takes 5–10 minutes. No formatting required. We handle the rest.</div></div>
+      <div class="step"><span class="step-num">02</span><h3>Receive polished outputs</h3><p>Within 24 hours, your AI-generated reports, content, newsletter, or proposal lands in your inbox — formatted and ready.</p><div class="step-detail">Delivered as editable documents. Review takes 5 minutes. Request changes anytime.</div></div>
+      <div class="step"><span class="step-num">03</span><h3>Review and send</h3><p>Read through your outputs, make any final adjustments, and send directly to clients or publish to LinkedIn.</p><div class="step-detail">All content belongs to you. No attribution. No co-branding. Fully yours.</div></div>
     </div>
   </div>
 </section>
 
-<!-- PRICING -->
 <section id="pricing">
   <div class="section-inner">
     <span class="section-badge">Pricing</span>
     <h2 class="section-title">One advisor. One monthly plan.</h2>
     <p class="section-sub">No contracts. No setup fees. Cancel anytime. Start with the tier that fits your current output needs — upgrade as you grow.</p>
     <div class="pricing-grid">
-
       <div class="price-card">
         <span class="price-tier">Core</span>
         <div class="price-amount">$99</div>
@@ -813,9 +229,8 @@ footer {
           <li>24-hour delivery</li>
           <li>Email delivery</li>
         </ul>
-        <a href="#" class="price-btn">Get started →</a>
+        <button class="price-btn" onclick="openCheckout('pri_01krb5aws6r4ar5y89yvb721r0')">Get started →</button>
       </div>
-
       <div class="price-card featured">
         <span class="price-tier">Authority</span>
         <div class="price-amount">$299</div>
@@ -827,9 +242,8 @@ footer {
           <li>24-hour delivery</li>
           <li>Priority support</li>
         </ul>
-        <a href="#" class="price-btn">Get started →</a>
+        <button class="price-btn" onclick="openCheckout('pri_01krb571ft6r5gxfv4rabsjyrf')">Get started →</button>
       </div>
-
       <div class="price-card">
         <span class="price-tier">Elite</span>
         <div class="price-amount">$799</div>
@@ -841,9 +255,8 @@ footer {
           <li>Quarterly positioning audit</li>
           <li>Weekly performance review</li>
         </ul>
-        <a href="#" class="price-btn">Get started →</a>
+        <button class="price-btn" onclick="openCheckout('pri_01krb4yec6e07546ra14mfgxhe')">Get started →</button>
       </div>
-
       <div class="price-card">
         <span class="price-tier">Concierge</span>
         <div class="price-amount">$3,000</div>
@@ -855,69 +268,46 @@ footer {
           <li>Custom output formats</li>
           <li>Same-day turnaround</li>
         </ul>
-        <a href="mailto:velago.app@gmail.com" class="price-btn">Contact us →</a>
+        <button class="price-btn" onclick="openCheckout('pri_01krb49wzmba7gtd77w3a5kx1n')">Get started →</button>
       </div>
-
     </div>
-
     <div class="guarantee">
       <div class="guarantee-icon">🛡</div>
       <div>
         <h4>7-Day Money-Back Guarantee</h4>
-        <p>If Velago is not right for you, contact us within 7 days of your first payment for a full refund. No questions asked.</p>
+        <p>If VelaGo is not right for you, contact us within 7 days of your first payment for a full refund. No questions asked.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- FAQ -->
-<section style="background: var(--surface); border-top: 1px solid var(--border);">
+<section style="background:var(--surface);border-top:1px solid var(--border);">
   <div class="section-inner">
     <span class="section-badge">Questions</span>
     <h2 class="section-title">Common questions.</h2>
     <div class="faq-list">
-      <div class="faq-item">
-        <div class="faq-q">Who is Velago built for?</div>
-        <div class="faq-a">Independent financial advisors who want to communicate more consistently with clients and prospects — without spending hours writing every report, post, and newsletter themselves.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Is the content compliant with financial regulations?</div>
-        <div class="faq-a">All outputs are generated as drafts for your review. You are responsible for reviewing content for compliance with applicable regulations in your jurisdiction before sending to clients. We produce the content — you approve it.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">How do I submit my client data?</div>
-        <div class="faq-a">Through a simple, secure intake form. No software to install. No integrations required. Fill out the form with your client data and performance figures — we handle everything from there.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Who owns the outputs?</div>
-        <div class="faq-a">You do. All content generated for your account is fully yours — no co-branding, no attribution, no restrictions on use.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Can I cancel at any time?</div>
-        <div class="faq-a">Yes. Cancel anytime from your account — no notice period required. Your access continues until the end of your paid billing period.</div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">What if I need changes to an output?</div>
-        <div class="faq-a">Request revisions by replying to your delivery email. We update and return outputs within 24 hours of your revision request.</div>
-      </div>
+      <div class="faq-item"><div class="faq-q">Who is VelaGo built for?</div><div class="faq-a">Independent financial advisors who want to communicate more consistently with clients and prospects — without spending hours writing every report, post, and newsletter themselves.</div></div>
+      <div class="faq-item"><div class="faq-q">Is the content compliant with financial regulations?</div><div class="faq-a">All outputs are generated as drafts for your review. You are responsible for reviewing content for compliance with applicable regulations in your jurisdiction before sending to clients. We produce the content — you approve it.</div></div>
+      <div class="faq-item"><div class="faq-q">How do I submit my client data?</div><div class="faq-a">Through a simple, secure intake form. No software to install. No integrations required. Fill out the form with your client data and performance figures — we handle everything from there.</div></div>
+      <div class="faq-item"><div class="faq-q">Who owns the outputs?</div><div class="faq-a">You do. All content generated for your account is fully yours — no co-branding, no attribution, no restrictions on use.</div></div>
+      <div class="faq-item"><div class="faq-q">Can I cancel at any time?</div><div class="faq-a">Yes. Cancel anytime from your account — no notice period required. Your access continues until the end of your paid billing period.</div></div>
+      <div class="faq-item"><div class="faq-q">What if I need changes to an output?</div><div class="faq-a">Request revisions by replying to your delivery email. We update and return outputs within 24 hours of your revision request.</div></div>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
 <section class="cta-section">
   <div class="section-inner">
     <span class="section-badge">Get Started</span>
-    <h2 class="section-title" style="margin: 0 auto 16px;">Your next client report<br><em>writes itself.</em></h2>
+    <h2 class="section-title" style="margin:0 auto 16px;">Your next client report<br><em>writes itself.</em></h2>
     <p class="section-sub">Join financial advisors who have stopped spending weekends on client communications.</p>
-    <a href="#pricing" class="btn-primary">Start for $99/month →</a>
+    <button class="btn-primary" onclick="openCheckout('pri_01krb5aws6r4ar5y89yvb721r0')">Start for $99/month →</button>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <a href="/" class="footer-logo">Velago</a>
+    <a href="/" class="footer-logo">VelaGo</a>
     <ul class="footer-links">
       <li><a href="#outputs">What We Build</a></li>
       <li><a href="#how">How It Works</a></li>
@@ -927,11 +317,8 @@ footer {
       <li><a href="/refund">Refunds</a></li>
       <li><a href="mailto:velago.app@gmail.com">Contact</a></li>
     </ul>
-    <div class="footer-copy">
-      © 2026 NEA · VelaGo · VelaGo.App · velago.app@gmail.com
-    </div>
+    <div class="footer-copy">© 2026 NEA · VelaGo · velago.app · velago.app@gmail.com</div>
   </div>
 </footer>
-
 </body>
 </html>
